@@ -171,14 +171,14 @@ Project Link: [https://github.com/zzkluck/ArknightsCharVis](https://github.com/z
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
+[contributors-shield]: https://img.shields.io/github/contributors/zzkluck/ArknightsCharVis.svg?style=for-the-badge
 [contributors-url]: https://github.com/zzkluck/ArknightsCharVis/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
+[forks-shield]: https://img.shields.io/github/forks/zzkluck/ArknightsCharVis.svg?style=for-the-badge
 [forks-url]: https://github.com/zzkluck/ArknightsCharVis/network/members
-[stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=for-the-badge
+[stars-shield]: https://img.shields.io/github/stars/zzkluck/ArknightsCharVis.svg?style=for-the-badge
 [stars-url]: https://github.com/zzkluck/ArknightsCharVis/stargazers
-[issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=for-the-badge
+[issues-shield]: https://img.shields.io/github/issues/zzkluck/ArknightsCharVis.svg?style=for-the-badge
 [issues-url]: https://github.com/zzkluck/ArknightsCharVis/issues
-[license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
+[license-shield]: https://img.shields.io/github/license/zzkluck/ArknightsCharVis.svg?style=for-the-badge
 [license-url]: https://github.com/zzkluck/ArknightsCharVis/blob/master/LICENSE.txt
 [product-demo]: images/demo.png
