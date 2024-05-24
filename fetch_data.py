@@ -11,14 +11,21 @@ CHAR_DATA = NamedTuple('CHAR_DATA', [('attack', int), ('defence', int), ('maxHp'
 ASSETS_DIR = Path("./assets")
 CHAR_TABLE_PATH = ASSETS_DIR / "character_table.json"
 BATTLE_EQUIP_PATH = ASSETS_DIR / "battle_equip_table.json"
+ENEMY_DATABASE_PATH = ASSETS_DIR / "enemy_database.json"
+
 IMAGE_DIR = ASSETS_DIR / "images"
+CHAR_AVATAR_DIR = IMAGE_DIR / "char"
+ENEMY_AVATAR_DIR = IMAGE_DIR / "enemy"
+
 CHAR_TABLE_WEB_URL = "https://raw.githubusercontent.com/Kengxxiao/ArknightsGameData/master/zh_CN/gamedata/excel/character_table.json"
 BATTLE_EQUIP_WEB_URL = "https://raw.githubusercontent.com/Kengxxiao/ArknightsGameData/master/zh_CN/gamedata/excel/battle_equip_table.json"
-IMAGE_WEB_URL = "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar"
+ENEMY_DATABASE_WEB_URL = "https://github.com/Kengxxiao/ArknightsGameData/raw/master/zh_CN/gamedata//levels/enemydata/enemy_database.json"
+AVATAR_WEB_URL = "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar"
+ENEMY_AVATAR_WEB_URL = "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/enemy"
 
 def fetch_char_data() -> List[CHAR_DATA]:
     ASSETS_DIR.mkdir(exist_ok=True)
-    IMAGE_DIR.mkdir(exist_ok=True)
+    CHAR_AVATAR_DIR.mkdir(exist_ok=True, parents=True)
 
     if not CHAR_TABLE_PATH.exists():
         wget.download(CHAR_TABLE_WEB_URL, CHAR_TABLE_PATH.absolute().as_posix())
@@ -39,14 +46,14 @@ def fetch_char_data() -> List[CHAR_DATA]:
             continue
 
         # 下载头像
-        image_path = IMAGE_DIR / f"{info['name']}.png"
+        image_path = CHAR_AVATAR_DIR / f"{info['name']}.png"
         if not image_path.exists():
             try:
-                wget.download(f"{IMAGE_WEB_URL}/{key}_2.png", image_path.absolute().as_posix(), bar=None)
+                wget.download(f"{AVATAR_WEB_URL}/{key}_2.png", image_path.absolute().as_posix(), bar=None)
                 logging.info(f"Downloaded {key}_2:{info['name']}.")
             except HTTPError:
                 try:
-                    wget.download(f"{IMAGE_WEB_URL}/{key}.png", image_path.absolute().as_posix())
+                    wget.download(f"{AVATAR_WEB_URL}/{key}.png", image_path.absolute().as_posix())
                     logging.info(f"Downloaded {key}:{info['name']}.")
                 except HTTPError:
                     logging.warning(f"Cant't find image {key}:{info['name']}.")
@@ -87,4 +94,46 @@ def fetch_char_data() -> List[CHAR_DATA]:
                 elif kv['key'] == 'max_hp':
                     char_info['maxHp'] += kv['value']
 
-    return [(c['atk'], c['def'], c['maxHp'], f"assets/images/{c['name']}.png") for c in char_table.values()]
+    return [(c['atk'], c['def'], c['maxHp'], (CHAR_AVATAR_DIR / f"{c['name']}.png").as_posix()) for c in char_table.values()]
+
+def fetch_enemy_data(download_images: bool=True) -> List[CHAR_DATA]:
+    ASSETS_DIR.mkdir(exist_ok=True)
+    ENEMY_AVATAR_DIR.mkdir(exist_ok=True, parents=True)
+
+    if not ENEMY_DATABASE_PATH.exists():
+        wget.download(ENEMY_DATABASE_WEB_URL, ENEMY_DATABASE_PATH.absolute().as_posix())
+    with ENEMY_DATABASE_PATH.open('r', encoding='utf-8')as f:
+        enemy_database_json = json.load(f)
+    enemy_data_json = enemy_database_json['enemies']
+    enemy_table = {}
+    for e_dict in enemy_data_json:
+        key = e_dict['Key']
+        if len(e_dict['Value']) == 0:
+            logging.warning(f"Enemy {key} doesn't have infomation dict.")
+            continue
+
+        info = e_dict['Value'][0]
+        enemy_status = {
+            'maxHp': info['enemyData']['attributes']['maxHp']['m_value'],
+            'atk': info['enemyData']['attributes']['atk']['m_value'],
+            'def': info['enemyData']['attributes']['def']['m_value'],
+            'name': info['enemyData']['name']['m_value']
+            }
+        enemy_table[key] = enemy_status
+
+        if len(e_dict['Value']) == 1:
+            logging.info(f"Enemy {enemy_status['name']} doesn't have multi levels.")
+
+        # 下载头像
+        if download_images:
+            image_path = ENEMY_AVATAR_DIR / f"{enemy_status['name']}.png"
+            if not image_path.exists():
+                try:
+                    wget.download(f"{ENEMY_AVATAR_WEB_URL}/{key}.png", image_path.absolute().as_posix(), bar=None)
+                    logging.info(f"Downloaded {key}:{enemy_status['name']}.")
+                except HTTPError:
+                    logging.warning(f"Cant't find image {key}:{enemy_status['name']}.")
+    return [(e['atk'], e['def'], e['maxHp'], (ENEMY_AVATAR_DIR / f"{e['name']}.png").as_posix()) for e in enemy_table.values()]
+
+
+
