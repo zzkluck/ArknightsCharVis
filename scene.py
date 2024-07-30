@@ -3,7 +3,7 @@ from pathlib import Path
 from fetch_data import fetch_char_data, fetch_enemy_data
 from utils import Circle, circle_collide_sim
 
-class ArkVisChar(Scene):
+class ArkVis(Scene):
     def construct(self):
         self.camera.background_color = "#ece6e2"
         x_range, y_range = [300, 1550, 100], [0, 1050, 100]
