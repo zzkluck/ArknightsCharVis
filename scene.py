@@ -4,6 +4,9 @@ from pathlib import Path
 from scripts.fetch_data import fetch_char_data, fetch_enemy_data
 from utils import Circle, circle_collide_sim
 
+config.pixel_height = 1080 * 3
+config.pixel_width = 1920 * 3
+
 class ArkVisChar(Scene):
     def construct(self):
         self.camera.background_color = "#ece6e2"
@@ -32,7 +35,7 @@ class ArkVisChar(Scene):
         for px, py, pz, image_path in char_data:
             if not Path(image_path).exists(): continue
             img = ImageMobject(image_path)
-            img.scale(0.1 * pz / pz)    # TODO: image size should be adjusted by pz
+            img.scale(0.1 * pz / 1500.)
             self.add(img)
             img.move_to(axes.c2p(px, py))
             
@@ -71,9 +74,22 @@ class ArkVisEnemy(Scene):
         self.add(axes)
 
         enemy_data = fetch_enemy_data(download_images=False)
+        img_obj_list, circles = [], []
         for px, py, pz, image_path in enemy_data:
             if not Path(image_path).exists(): continue
             img = ImageMobject(image_path)
             img.scale(0.1 * pz / pz)    # TODO: image size should be adjusted by pz
-            img.move_to(axes.c2p(px, py))
             self.add(img)
+            img.move_to(axes.c2p(px, py))
+            
+            img_obj_list.append(img)
+            circles.append(Circle(axes.c2p(px, py)[0], axes.c2p(px, py)[1], img.height/2))
+
+        for _ in range(10):
+            circle_collide_sim(circles, lr=0.5)
+            # animations = []
+            for i, circle in enumerate(circles):
+                px, py = circle.x, circle.y
+                # animations.append(ApplyMethod(img_obj_list[i].move_to, np.array([px, py, 0])))
+                img_obj_list[i].move_to(np.array([px, py, 0]))
+            # self.play(*animations, run_time=2)
