@@ -17,15 +17,17 @@ BATTLE_EQUIP_WEB_URL = "https://raw.githubusercontent.com/Kengxxiao/ArknightsGam
 IMAGE_WEB_URL = "https://raw.githubusercontent.com/yuanyan3060/ArknightsGameResource/main/avatar"
 
 def fetch_char_data() -> List[CHAR_DATA]:
+    # 创建assets目录结构
     ASSETS_DIR.mkdir(exist_ok=True)
     IMAGE_DIR.mkdir(exist_ok=True)
 
+    # 如果本地找不到character_table.json干员信息配置文件，从ArknightsGameData项目获取
     if not CHAR_TABLE_PATH.exists():
         wget.download(CHAR_TABLE_WEB_URL, CHAR_TABLE_PATH.absolute().as_posix())
     with CHAR_TABLE_PATH.open('r', encoding='utf-8')as f:
         char_table_json = json.load(f)
 
-    
+    # 如果本地找不到battle_equip_table.json模组信息配置文件，从ArknightsGameData项目获取   
     if not BATTLE_EQUIP_PATH.exists():
         wget.download(BATTLE_EQUIP_WEB_URL, BATTLE_EQUIP_PATH.absolute().as_posix())
     with BATTLE_EQUIP_PATH.open('r', encoding='utf-8')as f:
@@ -34,7 +36,9 @@ def fetch_char_data() -> List[CHAR_DATA]:
     attributeType = {0:'maxHp', 1:'atk', 2:'def'}
     char_table = {}
     for key, info in char_table_json.items():
+        # "char_245_cello": { "name": "塑心", ... }
         char_key = key.split('_')[-1]
+        # 跳过不能精英二的干员
         if len(info['phases']) < 3:
             continue
 
