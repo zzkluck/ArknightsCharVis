@@ -1,6 +1,7 @@
 from manim import *
 from pathlib import Path
-from fetch_data import fetch_char_data, fetch_enemy_data
+
+from scripts.fetch_data import fetch_char_data
 from utils import Circle, circle_collide_sim
 
 class ArkVis(Scene):
