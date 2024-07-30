@@ -22,10 +22,11 @@ def crop_to_circle(image_path, output_path):
     img.save(output_path, "PNG")
 
 def make_avatar_circle():
-    from fetch_data import IMAGE_DIR
-    for avatar_path in IMAGE_DIR.glob("*.png"):
-        logging.debug(f"Cropping {avatar_path.as_posix()} to circle format.")
-        crop_to_circle(avatar_path.as_posix(), avatar_path.as_posix())
+    from fetch_data import CHAR_AVATAR_DIR, ENEMY_AVATAR_DIR
+    for avatar_dir in [ CHAR_AVATAR_DIR, ENEMY_AVATAR_DIR ]:
+        for avatar_path in avatar_dir.glob("*.png"):
+            logging.debug(f"Cropping {avatar_path.as_posix()} to circle format.")
+            crop_to_circle(avatar_path.as_posix(), avatar_path.as_posix())
 
 if __name__ == '__main__':
     make_avatar_circle()
