@@ -64,7 +64,7 @@
 ## About The Project
 
 ![ArkVis Demo][product-demo]
-
+![ArkVis Demo2][product-demo2]
 我是一名明日方舟玩家，一直以来我尝试将明日方舟的干员数据，以攻防为横纵轴画在一张散点图上：
 * [​[数据贴]明日方舟干员大赏(19.11.03)](https://ngabbs.com/read.php?tid=18959001)
 * [​[数据氵]自由囚犯版本，干员数据一图流(20.12.17)](https://ngabbs.com/read.php?tid=24687178)
@@ -75,6 +75,8 @@
 期间也是尝试了各式各样的技术，但总感觉不太尽如人意。终于，在明日方舟开服五周年之际，最近新学了`manim`，感觉是找到了各方面都比较靠谱的解决方案。与之前的版本相比，突出的好处是可以直接把干员头像怼上去了，真是可喜可贺。
 
 干脆开个项目好了。
+
+现在过度重叠在一个的干员头像会微妙的把彼此推开。
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -104,7 +106,7 @@ conda install -c conda-forge manim
 ## Usage
 通过如下命令启动`manim`渲染，脚本会自动从[ArknightsGameData](https://github.com/Kengxxiao/ArknightsGameData)和[ArknightsGameResource](https://github.com/yuanyan3060/ArknightsGameResource)中下载所需数据，并保存于`assets`文件夹。
 ```bash
-manim -qk scene.py ArkVis
+manim -qk scene.py ArkVisChar
 ```
 渲染结果于`media/images/scene`中找到。
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -116,8 +118,10 @@ manim -qk scene.py ArkVis
 
 - [x] 借助`manim`完成基本的散点图绘制功能
 - [x] 自动从其他开源项目下载数据
-- [ ] 解决数据点之间的重合覆盖问题
-- [ ] 尝试敌人数据的绘制
+- [x] 解决数据点之间的重合覆盖问题
+- [x] 尝试敌人数据的绘制
+
+我居然真的把这些都搞定了。这简直不是我。
 
 See the [open issues](https://github.com/zzkluck/ArknightsCharVis/issues) for a full list of proposed features (and known issues).
 
@@ -182,3 +186,4 @@ Project Link: [https://github.com/zzkluck/ArknightsCharVis](https://github.com/z
 [license-shield]: https://img.shields.io/github/license/zzkluck/ArknightsCharVis.svg?style=for-the-badge
 [license-url]: https://github.com/zzkluck/ArknightsCharVis/blob/master/LICENSE.txt
 [product-demo]: images/demo.png
+[product-demo2]: images/demo2.png
