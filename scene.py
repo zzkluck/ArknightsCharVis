@@ -1,6 +1,6 @@
 from manim import *
 from pathlib import Path
-from fetch_data import fetch_char_data
+from scripts.fetch_data import fetch_char_data
 
 class ArkVis(Scene):
     def construct(self):
