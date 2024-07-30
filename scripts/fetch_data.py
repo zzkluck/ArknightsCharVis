@@ -88,3 +88,6 @@ def fetch_char_data() -> List[CHAR_DATA]:
                     char_info['maxHp'] += kv['value']
 
     return [(c['atk'], c['def'], c['maxHp'], f"assets/images/{c['name']}.png") for c in char_table.values()]
+
+if __name__ == "__main__":
+    fetch_char_data()
